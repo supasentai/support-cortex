@@ -1,1 +1,5 @@
-# support-cortex
+requests
+beautifulsoup4
+markdownify
+python-dotenv
+openai
