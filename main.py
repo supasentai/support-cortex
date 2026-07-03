@@ -1,14 +1,13 @@
+from app.markdowner import save_markdown_files
 from app.scraper import fetch_articles
 
 
 def main():
     articles = fetch_articles(limit=30)
+    files = save_markdown_files(articles)
 
     print(f"Fetched {len(articles)} articles")
-
-    for article in articles[:5]:
-        print("-", article.get("title"))
-        print(" ", article.get("html_url"))
+    print(f"Saved {len(files)} markdown files")
 
 
 if __name__ == "__main__":
