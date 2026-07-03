@@ -48,3 +48,46 @@ def save_markdown_files(articles: list[dict]) -> list[Path]:
         saved_paths.append(path)
 
     return saved_paths
+
+from app.sync import build_article_state_entry, classify_article
+from app.state import load_article_state, save_article_state
+
+
+def save_markdown_files_incremental(articles: list[dict]) -> tuple[list[Path], dict]:
+    
+    OUTPUT_DIR = Path("data/markdown")
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    previous_state = load_article_state()
+    next_state = {}
+
+    changed_files = []
+    counts = {
+        "added": 0,
+        "updated": 0,
+        "skipped": 0,
+    }
+
+    for article in articles:
+        filename, content = article_to_markdown(article)
+        path = OUTPUT_DIR / filename
+
+        article_id = str(article.get("id"))
+        entry = build_article_state_entry(article, path, content)
+
+        status = classify_article(
+            article_id=article_id,
+            content_hash=entry["hash"],
+            previous_state=previous_state,
+        )
+
+        counts[status] += 1
+        next_state[article_id] = entry
+
+        if status in {"added", "updated"}:
+            path.write_text(content, encoding="utf-8")
+            changed_files.append(path)
+
+    save_article_state(next_state)
+
+    return changed_files, counts
