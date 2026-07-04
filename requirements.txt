@@ -1,5 +1,6 @@
+requests
 beautifulsoup4
 markdownify
-openai
-python-dotenv
 python-slugify
+python-dotenv
+openai
