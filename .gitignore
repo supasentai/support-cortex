@@ -5,5 +5,4 @@ __pycache__/
 .venv/
 venv/
 data/markdown/
-state/articles.json
 README.assets/
