@@ -16,3 +16,4 @@ RUN_SAMPLE_QUESTION = os.getenv("RUN_SAMPLE_QUESTION", "true").lower() not in {
     "no",
     "off",
 }
+SAMPLE_QUESTION = os.getenv("SAMPLE_QUESTION") or "How do I use the YouTube Dashboard App in OptiSigns?"
