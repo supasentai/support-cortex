@@ -30,10 +30,22 @@ pip install -r requirements.txt
 
 ## How to Run Locally
 
-Run the complete pipeline:
+Run the complete pipeline in interactive mode:
 
 ```bash
 python main.py
+```
+
+Run the sync/update pipeline without prompting for input:
+
+```bash
+python main.py --cron
+```
+
+Cron mode can also be enabled with:
+
+```bash
+CRON_MODE=true python main.py
 ```
 
 The pipeline will:
@@ -43,7 +55,8 @@ The pipeline will:
 - Detect added/updated articles using SHA256 hashes
 - Upload only changed documents to OpenAI Vector Store
 - Update the OpenAI Assistant
-- Prompt for a question and return an answer with citations
+- Prompt for questions in interactive mode and return answers with citations
+- Skip user input in cron mode
 
 Example output:
 
