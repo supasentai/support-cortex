@@ -2,7 +2,9 @@ from app.scraper import fetch_articles
 from app.markdowner import save_markdown_files_incremental
 from app.uploader import upload_markdown_files_to_vector_store
 from app.assistant import create_or_update_assistant, ask_sample_question
-from app.config import OPENAI_VECTOR_STORE_ID, RUN_SAMPLE_QUESTION, SAMPLE_QUESTION
+from app.config import OPENAI_VECTOR_STORE_ID
+
+DEFAULT_QUESTION = "How do I add a YouTube video?"
 
 
 def main():
@@ -32,9 +34,12 @@ def main():
     if vector_store_id:
         assistant_id = create_or_update_assistant(vector_store_id)
 
-        if RUN_SAMPLE_QUESTION:
-            answer = ask_sample_question(assistant_id, SAMPLE_QUESTION)
-            print(answer)
+        print("Enter your question for OptiBot:")
+        question = input("> ").strip() or DEFAULT_QUESTION
+        answer = ask_sample_question(assistant_id, question)
+
+        print(f"Question: {question}")
+        print(answer)
 
 
 if __name__ == "__main__":
